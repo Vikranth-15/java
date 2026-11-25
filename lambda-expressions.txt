@@ -1,0 +1,241 @@
+Lambda expressions
+=======================
+
+----> Anonymous function 
+        
+    --> NameLess
+    -->Without return type 
+    -->Without modifiers 
+
+
+
+// normal method 
+
+public void m1(){
+    System.out.println("Hello");
+}
+
+// lambda expressions 
+
+() -> { System.out.println("Hello"); }
+
+// one line is there curly braces not required 
+
+() -> System.out.println("Hello"); 
+
+
+
+ex-2 
+// Normal Method 
+public void sum(int a,int b){
+    System.out.println(a+b);
+}
+
+// Lambda Expression 
+
+(int a,int b) -> System.out.println(a+b);
+
+// compiler can guess type of variable 
+
+(a, b) -> System.out.println(a+b);
+
+
+
+ex -3:
+===============
+
+// Normal Method 
+
+
+public static int square(int n){
+    return n*n;
+}
+
+
+// lambda Expression
+(int n) -> { return n*n }
+
+// without curly braces return is not required
+
+(int n) ->  n*n;
+
+(n) ->  n*n;
+
+
+n -> n*n;
+
+
+
+ex -3 
+===========
+
+// normal method
+
+
+public int m1(String s){
+    return s.length();
+}
+
+// lambda Expression
+
+(String s) -> {return s.length()}
+
+(String s) -> s.length();
+
+(s) -> s.length();
+
+s -> s.length();
+
+
+// multithreading 
+
+public class Test {
+
+	public static void main(String[] args) {
+		Runnable r=() -> {
+				for(int i=0;i<=10;i++) {
+					System.out.println("child thread -1");
+				}
+		};
+		Thread t=new Thread(r);
+		t.start();
+		for(int i=0;i<=10;i++) {
+			System.out.println("main thread -1");
+		}
+	}
+
+}
+
+// Comparator interface has only one method compare(Object obj1,Object obj2) return int 
+
+    --> returns (+)ve if obj1 comes after obj2
+    --> returns (-)ve if obj1 comes before obj2 
+    -->returns 0(zero) if both are equal 
+
+public class MyComparator implements Comparator<Integer>{
+
+	@Override
+	public int compare(Integer i1, Integer i2) {
+		if(i1<i2) {
+			return -1;
+		}
+		if(i1>i2) {
+			return +1;
+		}
+		else {
+			return 0;
+		}
+	}
+}
+
+public class Test {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> al=new ArrayList<>();
+		al.add(22);
+		al.add(5);
+		al.add(2);
+		al.add(10);
+		al.add(13);
+		System.out.println(al);
+		Collections.sort(al,new MyComparator());
+		System.out.println(al);
+	}
+}
+
+o/p 
+=======
+[22, 5, 2, 10, 13]
+[2, 5, 10, 13, 22]
+
+IF WE WANT DESENDING ORDER REVERSE THE COMAPRE METHOD -1 ANS +1
+
+
+// Using lambda expressions 
+====================================
+
+public class Test {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> al=new ArrayList<>();
+		al.add(22);
+		al.add(5);
+		al.add(2);
+		al.add(10);
+		al.add(13);
+		System.out.println(al);
+		Comparator<Integer> c= (I1,I2) ->(I1<I2)?-1:(I1>I2)?1:0;
+		Collections.sort(al,c);
+		System.out.println(al);
+	}
+
+}
+
+
+// sort employees based on name ascending order 
+
+Compare<Employee> c=(e1,e2) -> e1.name.comapreTo(e2.name);  //ascending order 
+
+Compare<Employee> c=(e1,e2) -> e2.name.comapreTo(e1.name);  //DESENDING order 
+
+
+
+
+//
+
+=============================================
+Default methods 1.8
+=============================================
+
+we can override the default method in child class by providing public access modifier 
+
+multiple inheritence not possible with classes 
+
+Interface A{
+     default m1();
+}
+
+Interface B{
+    default m1();
+}
+
+class C extends A,B{
+
+
+}
+
+class test{
+
+    public start void main(String args[]){
+        C c=new C();
+        c.m1();
+        =======================
+        compile time error 
+        =========================
+    }
+}
+
+if we want to use we can override and use or use 
+
+A.super.m1();
+
+B.super.m1();
+
+
+================================
+
+Static methods in interfaces 
+
+================================
+
+by default interface static methods are not available to implementing class 
+
+
+only interface name used to call that method no other used to invoke that methods
+
+
+we can have main method inside the interface 1.8v 
+
+
+
+

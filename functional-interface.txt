@@ -1,0 +1,560 @@
+Function Interface 
+====================
+
+Interface Which has Single Abstract Method (SAM)
+
+Runnable -- run()
+
+Function Interface has any number of default and static methods but Single Abstract method
+
+
+@FunctionalInterface
+interface A{
+
+    public void m1()
+}
+
+@FunctionalInterface
+interface B extends A{
+
+   
+}
+
+this is valid automatically parent methods available to child
+
+ex-2 
+=====================
+
+@FunctionalInterface
+interface B extends A{
+
+    public void m1()
+   
+}
+
+Valid bcoz we are overriding the parent with child 
+
+
+
+ex-3
+=====================
+
+@FunctionalInterface
+interface B extends A{
+
+    public void m3();
+
+}
+
+
+Invalid bcoz child has two abstract methods 
+
+
+ex-4
+=====================
+
+
+interface B extends A{
+
+    public void m3();
+
+}
+
+
+valid bcoz interface has any number of abstract methods
+
+ex-5 
+==================================
+
+interface A{
+
+    public valid m1();
+
+}
+
+class B implements A{
+    public valid m1(){
+        System.out.println("m1 method")
+    }
+}
+
+class Test{
+
+    public static void main(String[] args){
+        B b=new B();
+        b.m1();
+
+        // parent reference used to hold child object 
+        A a=b B();
+        a.m1();
+        
+    }
+}
+
+
+// Lambda expression is 
+public class Test {
+
+	public static void main(String[] args) {
+		math m=() -> System.out.println("doning mathemetics");
+		m.m1();
+	}
+
+}
+
+
+
+// Lambda expressions applicable for only Functional Interfaces
+
+
+
+===========================================
+PRE DEFINED FUNCTIONAL INTERFACES 
+============================================
+
+PREDICATE 
+FUNCTION 
+CONSUMER 
+SUPPLIER
+
+=====================================================
+TWO ARGUMENT PRE DEFINED FUNCTIONAL INTERFACES 
+====================================================
+
+
+BIPREDICATE 
+BIFUNCTION 
+BICONSUMER 
+
+
+
+===================================
+conditional check go to predicate 
+===================================
+
+interface Predicate<T>{
+
+    public boolean test(T t);
+}
+
+
+// simple even check 
+
+public boolean test(Integer i){
+    if(i%2==0){
+        return true;
+    }
+    return false;
+}
+
+
+// lambda expression 
+
+Predicate p= i -> i%2==0;
+
+
+
+class Test{
+
+        public static void main(String[] args) {
+		Predicate<Integer> p=i->i%2==0;
+        System.out.println(p.test(10));          //true 
+
+        System.out.println(p.test(101));          //false 
+	}
+	
+}
+
+
+ex-4 
+========================
+
+
+public class Employee {
+	String name;
+	int salary;
+	boolean gf;
+	@Override
+	public String toString() {
+		return "Employee [name=" + name + ", salary=" + salary + ", gf=" + gf + "]";
+	}
+	public Employee(String name, int salary, boolean gf) {
+		this.name = name;
+		this.salary = salary;
+		this.gf = gf;
+	}
+	
+}
+
+
+public class Test {
+
+	public static void main(String[] args) {
+		Employee a1=new Employee("A",10000,true);
+		Employee a2=new Employee("B",20000,false);
+		Employee a3=new Employee("d",10000,true);
+		Employee a4=new Employee("c",90000,true);
+		Employee a5=new Employee("g",100000,false);
+		Employee a6=new Employee("f",70000,false);
+		
+		List<Employee> lis=new ArrayList<>();
+		lis.add(a1);
+		lis.add(a5);
+		lis.add(a4);
+		lis.add(a3);
+		lis.add(a2);
+		lis.add(a6);
+		
+		Predicate<Employee> p= e -> e.gf==false &&  e.salary>10000;
+		
+		for(Employee e:lis) {
+			if(p.test(e)) {
+				System.out.println(e);
+			}
+		}
+			
+	}
+
+}
+
+
+=============================================
+Combine two or more predicates based on conditions 
+===============================================
+
+
+public class TwoChecksPredicate {
+
+	public static void main(String[] args) {
+		Integer[] arr= {12,3,4,5,6,22,19,10,14,33,67,15};
+		
+		Predicate<Integer> p1= i -> i%2==0;
+		Predicate<Integer> p2= i -> i>10;
+		
+		System.out.println("numbers are even and greater than 10");
+		for(int i:arr) {
+			if(p1.and(p2).test(i)) {
+				System.out.println(i);
+			}
+		}
+		
+		System.out.println("numbers are even or  greater than 10");
+		
+		
+		for(int i:arr) {
+			if(p1.or(p2).test(i)) {
+				System.out.println(i);
+			}
+		}
+		
+		
+		System.out.println("Not even numbers");
+		for(int i:arr) {
+			if(p1.negate().test(i)) {
+				System.out.println(i);
+			}
+		}
+	}
+
+}
+
+
+===================================
+Function ---- functional interface
+===================================
+
+
+it contains apply() method 
+
+interface Function<T,R>{
+	public R apply(T);
+}
+
+T ----- input type 
+R ----- return type 
+
+
+=====================
+ex-1
+====================
+
+public class Squalre {
+
+	public static void main(String[] args) {
+		
+		Function<Integer,Integer> f= t -> t*t;
+		Function<String,Integer> f1= t -> t.length();
+		int i=5;
+		String s="vikky";
+		
+		System.out.println(f.apply(i));
+		System.out.println(f1.apply(s));
+	}
+
+}
+
+
+============
+ex-2
+===========
+
+public class Student {
+	int marks;
+	String name;
+	public Student(int marks, String name) {
+		
+		this.marks = marks;
+		this.name = name;
+	}
+	@Override
+	public String toString() {
+		return "Student [marks=" + marks + ", name=" + name + "]";
+	}
+
+}
+
+
+public class StudentMain {
+
+	public static void main(String[] args) {
+		Student s1=new Student(90,"Hari");
+		Student s2=new Student(50,"krishna");
+		Student s3=new Student(60,"Ram");
+		Student s4=new Student(70,"Hari");
+		Student s5=new Student(80,"Shiva");
+		ArrayList<Student> as=new ArrayList<>();
+		as.add(s1);
+		as.add(s2);
+		as.add(s3);
+		as.add(s4);
+		as.add(s5);
+		
+		Function<Student,Character> f=(s)->{
+			if(s.marks >=90) {
+				return 'A';
+			}else if(s.marks>=80 && s.marks<90) {
+				return 'B';
+			}
+			else if(s.marks>=70 && s.marks<80) {
+				return 'C';
+			}
+			else if(s.marks>=60 && s.marks<70) {
+				return 'D';
+			}
+			else if(s.marks>=50 && s.marks<60) {
+				return 'E';
+			}else {
+				return 'F';
+			}
+		};
+		for(Student s:as) {
+			System.out.print(s+" ");
+			System.out.print(f.apply(s));
+			System.out.println();
+		}
+		
+	}
+
+}
+
+
+==============================================
+Function Chanining
+==============================================
+
+public class FunctionChaining {
+
+	public static void main(String[] args) {
+		Function<Integer,Integer> f1=i->i*2;
+		Function<Integer,Integer> f2=i->i*i*i;
+		
+		System.out.println(f1.andThen(f2).apply(2));  //64
+		System.out.println(f1.compose(f2).apply(2));  //16
+	}
+
+}
+
+
+f1.andThen(f2) --- first f1 function call and then output f1 as input of  f2 happens
+f1.compose(f2) --- first f2 function call and then  output f2 as input of  f1 happens
+
+
+
+============================
+CONSUMER
+============================
+
+Consumer<T>  ----------- void accept()
+
+
+
+=============================
+SUPPLIER
+=============================
+
+Supplier<R> ------------ get() 
+
+it wont take any input and returns requires object 
+
+interface Supplier{
+
+	public R get();
+
+}
+
+================
+otp generation 
+================
+
+public class OtpGenerator {
+
+	public static void main(String[] args) {
+		Supplier<String> s=() ->{
+		String otp="";
+		for(int i=0;i<6;i++) {
+			otp+=(int)(Math.random()*10);
+			}
+		return otp;
+		};
+		System.out.println(s.get());
+		System.out.println(s.get());
+		System.out.println(s.get());
+		System.out.println(s.get());
+		System.out.println(s.get());
+		System.out.println(s.get());
+		
+	}
+
+}
+
+
+===============================
+Primitive Function Types 
+==============================
+
+DoubleFunction --- takes double as i/p and gives any output 
+
+IntFunction  ------- takes int as i/p and gives any output 
+
+LongFunction ------ takes long as i/p and gives any output 
+
+
+DoubleToIntFunction ----- take i/p as double and returns o/p as int 
+
+			public  int applyAsInt(Double d)
+
+
+
+===============================
+Method reference 
+================================
+
+method arguments must be match 
+
+return types different also no problem 
+
+public void run()
+
+public void m1()
+
+
+
+syntax if method is static 
+
+-------------------------
+className:: method Name
+---------------------------
+
+syntax if method is non static 
+
+---------------------------------
+Object Reference :: method Name 
+----------------------------------
+
+
+
+Normal multithreading example using lambda expressions
+
+public class Text {
+	
+
+	public static void main(String[] args) {
+		Runnable r=()->{
+			for(int i=0;i<10;i++) {
+				System.out.println("Child thread -1");
+			}
+		};
+		Thread t=new Thread(r);
+		t.run();
+		for(int i=0;i<10;i++) {
+			System.out.println("Parent thread -2");
+		}
+
+	}
+}
+
+
+method reference example in Which run method of Runnable calling m1 method of Text class main advantage code reusability 
+
+===========================
+ex-2  for static methods 
+=============================
+
+public class Text {
+	
+	public static void m1() {
+		for(int i=0;i<10;i++) {
+			System.out.println("Child thread -1");
+		}
+	}
+
+	public static void main(String[] args) {
+		Runnable r=Text::m1;
+		Thread t=new Thread(r);
+		t.run();
+		for(int i=0;i<10;i++) {
+			System.out.println("Parent thread -2");
+		}
+
+	}
+
+}
+
+
+===================================
+
+ex-4 for non static methods 
+
+====================================
+
+
+
+public class Text {
+	
+	public void m1() {
+		for(int i=0;i<10;i++) {
+			System.out.println("Child thread -1");
+		}
+	}
+
+	public static void main(String[] args) {
+		Text t1=new Text();
+		Runnable r=t1::m1;
+		Thread t=new Thread(r);
+		t.run();
+		for(int i=0;i<10;i++) {
+			System.out.println("Parent thread -2");
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
