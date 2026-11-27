@@ -713,3 +713,37 @@ public class SumOfDigits {
 }
 
 
+======================================================================
+reverse words in string starting with a or A and join with hyfen (-)
+=====================================================================
+
+
+public class StringJoin {
+
+	public static void main(String[] args) {
+		String s = "Amazing Arcitic Are Always Awardred";
+		String res=Arrays.stream(s.split(" ")).filter(i -> i.startsWith("A") || i.startsWith("a"))
+
+				.map(i -> new StringBuilder(i).reverse().toString().toLowerCase())
+				.collect(Collectors.joining("-"));
+		System.out.println(res);
+
+	}
+
+}
+
+
+======================================
+multiply numbers greater than 5
+======================================
+
+public class MultiplyNumbers {
+
+	public static void main(String[] args) {
+		List<Integer> lis = List.of(2, 3, 6, 8, 10, 1, 4);
+		long mul = (long) lis.stream().filter(i -> (i % 2 == 0) && (i > 5)).reduce(1, (a, b) -> a * b);
+
+		System.out.println(mul);
+	}
+
+}
