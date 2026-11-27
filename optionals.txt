@@ -1,0 +1,72 @@
+it a container 
+
+public class Student {
+	
+	private int rollNo;
+	private String name;
+	private String address;
+	public Student(int rollNo, String name, String address) {
+		
+		this.rollNo = rollNo;
+		this.name = name;
+		this.address = address;
+	}
+	public int getRollNo() {
+		return rollNo;
+	}
+	public String getName() {
+		return name;
+	}
+	public Optional<String> getAddress() {
+		return Optional.ofNullable(address);
+        
+        //
+        return Optional.of(address);
+        
+	}
+	@Override
+	public String toString() {
+		return "Student [rollNo=" + rollNo + ", name=" + name + ", address=" + address + "]";
+	}
+}
+
+
+package in.examples.optionals;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class StudentMain {
+
+	public static void main(String[] args) {
+		List<Student> students=List.of(
+				new Student(101, "Aarav", "Mumbai"),
+				new Student(102, "Priya", "Pune"),
+				new Student(103, null, null),
+				new Student(104,"Sam",null),
+				new Student(105,"Hari","HYD"));
+	
+		Student s1=students.get(2);
+		Optional<String> address=s1.getAddress();
+		
+		System.out.println(s1.getRollNo());
+		System.out.println(s1.getName());
+		
+		address.ifPresent(i->System.out.println(i));
+		address.ifPresentOrElse(i->System.out.println(i), ()->System.out.println("NA"));
+		
+		if(address.isPresent()) {
+			System.out.println(address.get());
+		}
+		else {
+			System.out.println("NA");
+		}
+	}
+		
+
+}
+
+
+
+
