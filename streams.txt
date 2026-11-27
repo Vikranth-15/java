@@ -1,0 +1,715 @@
+==================
+Collections
+=================
+
+if we want to represent group of objects as single entity go for collections  
+
+===========
+Streams
+===========
+
+if we want to process objects from collection go to streams 
+
+how to convert form collections to stream is
+
+        Stream s1=c.stream()
+
+
+public class Array {
+	public static void main(String[] args) {
+		ArrayList<Integer> lis=new ArrayList<>();
+		lis.add(11);
+		lis.add(21);
+		lis.add(1);
+		lis.add(4);
+		lis.add(8);
+		lis.add(18);
+		lis.add(10);
+		System.out.println(lis);       //[11, 21, 1, 4, 8, 18, 10]
+
+		List<Integer> even=lis.stream()
+							  .filter(i-> i%2==0)
+							  .collect(Collectors.toList());
+		
+		System.out.println(even);      // [4, 8, 18, 10]
+		
+	}
+}
+
+
+// map function to perform some change on every element 
+
+public class Array {
+	public static void main(String[] args) {
+		ArrayList<Integer> lis=new ArrayList<>();
+		lis.add(11);
+		lis.add(21);
+		lis.add(1);
+		lis.add(4);
+		lis.add(8);
+		lis.add(18);
+		lis.add(10);
+		System.out.println(lis);       //[11, 21, 1, 4, 8, 18, 10]
+
+		List<Integer> res=lis.stream()
+							  .map(i-> i+10)
+							  .collect(Collectors.toList());
+		
+		System.out.println(res);     //[21, 31, 11, 14, 18, 28, 20]
+		
+	}
+}
+
+===========
+count() 
+===========
+count no of elements in a stream 
+
+====================================
+
+ex-1 -- count marks less than 50 
+
+=====================================
+
+public class Student {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> marks=new ArrayList<>();
+		marks.add(63);
+		marks.add(33);
+		marks.add(70);
+		marks.add(80);
+		marks.add(40);
+		marks.add(55);
+		marks.add(99);
+		long count = marks.stream().filter(i->i<50).count();
+		System.out.println(count);                                //2
+	}
+
+}
+
+
+===============
+sorted()
+===============
+
+used to sort elements in ascending order 
+
+================
+ex -1
+================
+
+public class Array {
+	public static void main(String[] args) {
+		ArrayList<Integer> lis=new ArrayList<>();
+		lis.add(11);
+		lis.add(21);
+		lis.add(1);
+		lis.add(4);
+		lis.add(8);
+		lis.add(18);
+		lis.add(10);
+		System.out.println(lis);       //[11, 21, 1, 4, 8, 18, 10]
+
+		List<Integer> res=lis.stream()
+							  .sorted()
+							  .collect(Collectors.toList());
+		
+		System.out.println(res);     //[1, 4, 8, 10, 11, 18, 21]   
+		
+	}
+}
+
+
+// we can also use compareTo in sorted for ascending and decending 
+
+
+for ascending order  .sorted((i1,i2) -> i1.compareTo(i2))
+
+for decending order .sorted((i1,i2) -> i2.compareTo(i1)) 
+
+for decending order .sorted((i1,i2) -> -i1.compareTo(i2)) 
+
+public class Array {
+	public static void main(String[] args) {
+		ArrayList<Integer> lis=new ArrayList<>();
+		lis.add(11);
+		lis.add(21);
+		lis.add(1);
+		lis.add(4);
+		lis.add(8);
+		lis.add(18);
+		lis.add(10);
+		System.out.println(lis);
+		List<Integer> even=lis.stream()
+							  .sorted((i1,i2) -> i1.compareTo(i2))
+							  .collect(Collectors.toList());
+		
+		System.out.println(even);
+		
+	}
+}
+
+
+
+================
+Decending order 
+==================
+
+use lambda expressions 
+
+
+
+public class Array {
+	public static void main(String[] args) {
+		ArrayList<Integer> lis=new ArrayList<>();
+		lis.add(11);
+		lis.add(21);
+		lis.add(1);
+		lis.add(4);
+		lis.add(8);
+		lis.add(18);
+		lis.add(10);
+		System.out.println(lis);          // [11, 21, 1, 4, 8, 18, 10]
+		List<Integer> res =lis.stream()   
+							  .sorted((i1,i2)-> (i1<i2)?1:(i1>i2)?-1:0)
+							  .collect(Collectors.toList());
+		
+		
+        System.out.println(res);         // [21, 18, 11, 10, 8, 4, 1] 
+		
+	}
+}
+
+
+====================
+min and max 
+====================
+
+public class MinMax {
+	public static void main(String[] args) {
+		ArrayList<Integer> lis=new ArrayList<>();
+		lis.add(22);
+		lis.add(-1);
+		lis.add(17);
+		lis.add(44);
+		lis.add(99);
+		lis.add(3);
+		lis.add(8);
+		lis.add(2);
+		lis.add(-19);
+		
+		Integer min=lis.stream().min((i1,i2)->i1.compareTo(i2)).get();
+		System.out.println(min);
+		Integer max=lis.stream().max((i1,i2)->i1.compareTo(i2)).get();
+		System.out.println(max);
+	}
+
+}
+
+
+.min((i1,i2)-> - i1.compareTo(i2)).get();  gives max 
+
+.max((i1,i2)-> - i1.compareTo(i2)).get();   gives min 
+
+
+=================================================
+Each element present in stream make an operation 
+=====================================================
+
+--------------
+forEach()
+----------------
+
+public class PrintElements {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> lis=new ArrayList<>();
+		lis.add(22);
+		lis.add(-1);
+		lis.add(17);
+		lis.add(44);
+		lis.add(99);
+		lis.add(3);
+		lis.add(8);
+		lis.add(2);
+		lis.add(-19);
+		
+		System.out.println(lis);
+		
+		// using for each  loop
+		for(int i:lis) {
+			System.out.println(i);
+		}
+		
+		// using streams 
+		lis.stream().forEach(System.out::println);
+
+	}
+
+}
+
+
+================
+toArray()
+=================
+
+to convert stream of elements to array 
+
+
+public class ToArray {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> lis=new ArrayList<>();
+		lis.add(22);
+		lis.add(-1);
+		lis.add(17);
+		lis.add(44);
+		lis.add(99);
+		lis.add(3);
+		lis.add(8);
+		lis.add(2);
+		lis.add(-19);
+		Integer[] i=lis.stream().toArray(Integer[] :: new);
+		System.out.println(Arrays.toString(i));
+
+        Stream.of(i).forEach(System.out::println); 
+
+        this line convert array to collections and print them 
+		
+	}
+
+}
+
+
+Sample :: new  ----- create object Sample object 
+
+Integer[] i :: new ---- creates Integer array object 
+
+
+=======================================
+distinct()
+=======================================
+print unique elements i an array or list 
+
+use Arrays.stream(arr).distinct() for arrays 
+
+
+	//convert numbers  to stream 
+	Stream<Integer> s=Stream.of(1,2,2,3,4,5);
+
+    // convert elements to List 
+	List<Integer> l=List.of(1,2,4,4,5);
+		
+		
+
+=============
+ex-1 
+=============
+
+public class UniqueElements {
+
+	public static void main(String[] args) {
+		Integer[] arr= {1,2,3,4,5,4,3,2,1};
+			
+		Arrays.stream(arr)
+        .distinct()
+        .forEach(System.out::println);
+	}
+
+}
+
+
+===============================
+reduce()
+===============================
+
+used to stream into single value 
+
+public class ReduceExample {
+
+	public static void main(String[] args) {
+		List<Integer> lis=List.of(1,2,3,4,5,6,7,8,9,10);
+		int sum=lis.stream().reduce(0, (a,b)->a+b);
+		int prod=lis.stream().reduce(1, (a,b)->a*b);
+		System.out.println(sum);                             // 55
+		System.out.println(prod);                           //3628800
+				
+	}
+
+}
+
+
+========================================
+skip()
+=========================================
+
+skip used to skip elements of some range 
+
+
+==================
+ex-1 
+=================
+
+public class LimitExample {
+
+	public static void main(String[] args) {
+		List<Integer> lis=List.of(1,2,3,4,5,6,7,8,9);
+		List<Integer> res=lis.stream()
+				.skip(3)
+		 		.collect(Collectors.toList());
+		System.out.println(res);                        // [4, 5, 6, 7, 8, 9]
+	}
+
+}
+
+
+
+=========================
+limit()
+============================
+
+ used for limit output stream 
+
+
+=============
+ex-1 
+==============
+
+
+
+public class LimitExample {
+
+	public static void main(String[] args) {
+		List<Integer> lis=List.of(1,2,3,4,5,6,7,8,9);
+		List<Integer> res=lis.stream()
+				.limit(3)
+		 		.collect(Collectors.toList());
+		System.out.println(res);                        // [1,2,3]
+	}
+
+}
+
+
+============================
+findFirst()
+==============================
+
+returns first matching element 
+
+
+public class FindFirst {
+
+	public static void main(String[] args) {
+		List<String> al=List.of("Ab","Abhi","Akash","Anil");
+		Optional<String> op=al.stream()
+							  .filter((i)->i.startsWith("A"))
+							  .findFirst();
+		
+		System.out.println(op.get());
+	}
+
+}
+
+
+
+=====================
+create int stream
+=====================
+
+
+IntStream.of(2,3,4,5).forEach(System.out::println);
+
+
+=======================
+create infinite Stream
+=======================
+
+IntStream.iterate(1,n-> n+3).forEach(System.out::println)
+
+===============================
+create stream for some range 
+===============================
+
+gives 100 values 
+
+IntStream.iterate(1,n-> n+3).limit(100).forEach(System.out::println)
+
+
+===============================================
+create stream using iterate for fixed number
+================================================
+
+IntStream.iterate(1,n-> n<=50,n->n+2).forEach(System.out::println) 
+
+
+
+// gives values form 10 to 99 with difference 1
+
+IntStream.rangeClosed(10,100).forEach(System.out::println) 
+
+
+
+
+// concat or add two streams 
+
+IntStream.concat(is1,is2).forEach(System.out::println) 
+
+
+===============
+ex-1 
+===============
+
+public class Methods {
+
+	public static void main(String[] args) {
+		IntStream is1=IntStream.of(1,2,3,4,5,6);
+		IntStream is2=IntStream.of(7,8,9,10,11,12);
+		IntStream.concat(is1, is2).forEach(System.out::println);
+	}
+
+}
+
+
+
+
+
+// convert stream in to array 
+
+
+public class Methods {
+
+	public static void main(String[] args) {
+		IntStream is1=IntStream.of(1,2,3,4,5,6);
+		IntStream is2=IntStream.of(7,8,9,10,11,12);
+		int[] arr=IntStream.concat(is1, is2).toArray();
+		System.out.println(Arrays.toString(arr));              // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+	}
+}
+
+
+
+// how to read characters from string 
+
+============================================
+chars()  returns int stream 
+==============================================
+
+String a="hello";
+a.chars()
+
+==========================
+ex-1 
+==========================
+
+
+public class Methods {
+
+	public static void main(String[] args) {
+		String val="hello this is vikky ";
+		val.chars().forEach(System.out::println);
+		// it will print numbers
+
+		// if we want characters 
+		val.chars().forEach((i)-> System.out.println((char)(i)));
+	}
+}
+
+
+
+
+==============================
+mapToObj()
+=============================
+
+convert primitive to object type 
+ 
+=================
+ex -1 
+==================
+
+print all characters in a string 
+
+ public class Methods {
+
+	public static void main(String[] args) {
+		String val="hello this is vikky";
+		val.chars().mapToObj((i)-> (char)i)
+		.forEach(System.out::println);
+	}
+}
+
+
+
+
+
+
+
+
+=====================================
+methods to create stream 
+======================================
+
+
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+
+Stream<String> stream = names.stream();
+
+// create a stream using strings 
+
+Stream<String> stream = Stream.of("Alice", "Bob", "Charlie");
+
+
+// convert arrays to stream 
+
+
+String[] arr = {"A", "B", "C"};
+
+Stream<String> stream = Arrays.stream(arr);
+
+
+// create an empty stream 
+
+
+Stream<String> stream = Stream.empty();
+
+
+// Infinite Stream with iterate()
+
+stream.Iterate(1,n->n+5);
+
+
+Stream<Integer> stream = Stream.iterate(1, n -> n + 1);
+
+stream.limit(5).forEach(System.out::println);
+// 1 2 3 4 5
+
+
+==========================
+Builder 
+==========================
+
+
+public class BuilderStream {
+
+	public static void main(String[] args) {
+		Stream<Integer> ss=Stream.<Integer>builder()
+		.add(29)
+		.add(33)
+		.add(44)
+		.add(55)
+		.add(66)
+		.add(77)
+		.add(88)
+		.add(99)
+		.build();
+		ss.filter(i->i%2==0)
+		.forEach(System.out::println);
+		
+
+	}
+
+}
+
+
+===================
+ex-3 
+======================
+
+
+public class MinExample {
+
+	public static void main(String[] args) {
+		Integer[] arr= {99,2,4,5,6,7,33,4,5,-1,-90};
+		Optional<Integer> min=Arrays.stream(arr)
+									.filter(i->i%2==0)
+									.min(Integer::compareTo);
+		System.out.println(min.get());
+		
+		Optional<Integer> max=Arrays.stream(arr)
+				.filter(i->i%2==0)
+				.max(Integer::compareTo);
+		System.out.println(max.get());
+		
+		Optional<Integer> ff=Arrays.stream(arr)
+				.filter(i->i%2==0)
+				.findFirst();
+
+		Optional<Integer> findLast=Arrays.stream(arr)
+		.reduce((first,second)->second);
+		System.out.println(findLast.get());
+			
+			
+	}
+
+}
+
+
+
+
+
+=============================
+smallest number in a list 
+=============================
+
+public class SmallestNumber {
+
+	public static void main(String[] args) {
+		String input = "45 32 67 -89 12 90 -5 100";
+		Optional<Integer> min=Arrays.stream(input.split(" "))
+			  .map(i->Integer.parseInt(i))
+			  .min(Integer::compareTo);
+		System.out.println(min.get());
+		
+		
+		// Prints the value if present, avoiding NoSuchElementException on empty strings
+        min.ifPresent(System.out::println); 
+	}
+
+}
+
+====================================
+longest word in the sentence
+======================================
+
+
+
+
+public class MaxWordLength {
+
+	public static void main(String[] args) {
+		String sentence = "Coding with Streams is Excellent and super fun";
+		Arrays.stream(sentence.split("\\s+"))
+        .max(Comparator.comparingInt(String::length))
+        .ifPresent(word -> System.out.println("Longest word: " + word + " (" + word.length() + " characters)"));
+
+	}
+
+}
+
+
+
+
+
+
+
+==============================
+sum of digits in a string 
+===============================
+
+public class SumOfDigits {
+
+	public static void main(String[] args) {
+		String s = "1a2b3c4d5e";
+
+		long sum = s.chars()
+				.filter(Character::isDigit)
+				.map(Character::getNumericValue)
+				.reduce(0, (a, b) -> a + b);
+		System.out.println(sum);
+
+	}
+
+}
+
+
